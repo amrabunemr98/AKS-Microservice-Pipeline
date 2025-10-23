@@ -8,6 +8,8 @@ grafana:
     type: LoadBalancer
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  imagePullSecrets:
+    - name: acr-pull-secret
   ingress:
     enabled: false
   persistence:
@@ -22,12 +24,16 @@ prometheus:
     retention: 15d
     scrapeInterval: 30s
     serviceMonitorSelectorNilUsesHelmValues: false
+  imagePullSecrets:
+    - name: acr-pull-secret
 
 prometheusOperator:
   image:
     registry: microservicesdevw25mr.azurecr.io
     repository: monitoring/prometheus-operator
     tag: v0.75.2
+  imagePullSecrets:
+    - name: acr-pull-secret
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
@@ -37,6 +43,8 @@ prometheusOperator:
         registry: microservicesdevw25mr.azurecr.io
         repository: monitoring/kube-webhook-certgen
         tag: v1.6.3
+      imagePullSecrets:
+        - name: acr-pull-secret
       tolerations:
         - key: CriticalAddonsOnly
           operator: Exists
