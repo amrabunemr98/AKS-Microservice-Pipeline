@@ -119,3 +119,10 @@ az ad sp create-for-rbac \
   --scopes /subscriptions/ea26b3d8-d191-4a12-910c-cac840178587 \
   --sdk-auth
 will add jason in secrets of github actions
+
+
+selfhosted runner after running command so must Install and start as a service so it survives reboots:
+
+sudo ./svc.sh install
+sudo ./svc.sh start
+sudo ./svc.sh statu
