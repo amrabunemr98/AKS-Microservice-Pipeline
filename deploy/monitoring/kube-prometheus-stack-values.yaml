@@ -25,8 +25,8 @@ prometheus:
 
 prometheusOperator:
   image:
-    registry: mcr.microsoft.com
-    repository: oss/prometheus-operator/prometheus-operator
+    registry: microservicesdevw25mr.azurecr.io
+    repository: monitoring/prometheus-operator
     tag: v0.75.2
   tolerations:
     - key: CriticalAddonsOnly
@@ -34,8 +34,8 @@ prometheusOperator:
   admissionWebhooks:
     patch:
       image:
-        registry: mcr.microsoft.com
-        repository: oss/kubernetes-ingress-controller/ingress-nginx/kube-webhook-certgen
+        registry: microservicesdevw25mr.azurecr.io
+        repository: monitoring/kube-webhook-certgen
         tag: v1.6.3
       tolerations:
         - key: CriticalAddonsOnly
