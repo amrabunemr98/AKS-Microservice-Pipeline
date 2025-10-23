@@ -1,0 +1,29 @@
+global:
+  rbac:
+    create: true
+
+grafana:
+  adminPassword: changeme
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  ingress:
+    enabled: false
+  persistence:
+    enabled: false
+
+prometheus:
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  prometheusSpec:
+    retention: 15d
+    scrapeInterval: 30s
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  enabled: true
+  service:
+    type: ClusterIP

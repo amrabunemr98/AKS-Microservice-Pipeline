@@ -1,0 +1,15 @@
+location              = "eastus2"
+project_name          = "microservices"
+environment           = "dev"
+vnet_address_space    = ["10.10.0.0/16"]
+aks_subnet_prefix     = "10.10.1.0/24"
+acr_subnet_prefix     = "10.10.2.0/28"
+jumpbox_subnet_prefix = "10.10.3.0/28"
+node_count            = 1
+node_vm_size          = "Standard_DC2s_v3"
+acr_sku               = "Standard"
+acr_private_endpoint_enabled = false
+jumpbox_vm_size       = "Standard_B1ms"
+jumpbox_admin_username = "abunemr"
+ssh_public_key_path   = "~/.ssh/id_rsa_azure.pub"
+allowed_ssh_cidrs     = ["41.68.162.78/32"]

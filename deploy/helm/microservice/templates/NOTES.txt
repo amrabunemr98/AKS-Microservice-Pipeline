@@ -1,0 +1,9 @@
+1. Get the application URL by running these commands:
+
+{{- if eq .Values.service.type "LoadBalancer" }}
+  kubectl get svc {{ include "microservice.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+{{- else if eq .Values.service.type "ClusterIP" }}
+  kubectl port-forward svc/{{ include "microservice.fullname" . }} 8080:{{ .Values.service.port }}
+{{- else if eq .Values.service.type "NodePort" }}
+  kubectl get nodes -o wide
+{{- end }}

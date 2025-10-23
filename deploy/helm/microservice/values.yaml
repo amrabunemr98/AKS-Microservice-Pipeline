@@ -1,0 +1,65 @@
+replicaCount: 2
+
+image:
+  repository: <acr_login_server>/microservice
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podLabels: {}
+
+env:
+  - name: FLASK_ENV
+    value: production
+  - name: PORT
+    value: "5000"
+  - name: DATABASE_URL
+    value: postgresql://microservice:microservice@postgres:5432/microservice
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  loadBalancerIP: ""
+
+livenessProbe:
+  path: /users
+  port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+readinessProbe:
+  path: /users
+  port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
