@@ -14,6 +14,9 @@ grafana:
     limits:
       cpu: 200m
       memory: 256Mi
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
   service:
     type: LoadBalancer
     annotations:
@@ -45,6 +48,9 @@ prometheus:
         cpu: 300m
         memory: 512Mi
     serviceMonitorSelectorNilUsesHelmValues: false
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
 
 prometheus-node-exporter:
   enabled: false
@@ -53,6 +59,9 @@ kubeStateMetrics:
   enabled: false
 
 prometheusOperator:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
   admissionWebhooks:
     enabled: false
     patch:
