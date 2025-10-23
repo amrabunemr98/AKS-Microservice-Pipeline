@@ -49,6 +49,18 @@ jobs:
             --docker-password="$ACR_PASS" \
             --dry-run=client -o yaml | kubectl apply -f -
 
+      - name: Create ingress pull secret
+        run: |
+          ACR_USER=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query username -o tsv)
+          ACR_PASS=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query "passwords[0].value" -o tsv)
+          kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create secret docker-registry acr-pull-secret \
+            --namespace ingress-nginx \
+            --docker-server=${{ secrets.ACR_LOGIN_SERVER }} \
+            --docker-username="$ACR_USER" \
+            --docker-password="$ACR_PASS" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Import monitoring images into ACR
         run: |
           if ! az acr repository show --name ${{ secrets.ACR_NAME }} \
@@ -101,7 +113,12 @@ jobs:
             --namespace ingress-nginx \
             --create-namespace \
             --set controller.service.type=LoadBalancer \
-            --set controller.service.externalTrafficPolicy=Local
+            --set controller.service.externalTrafficPolicy=Local \
+            --set controller.imagePullSecrets[0].name=acr-pull-secret \
+            --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
+            --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \
+            --set admissionWebhooks.patch.image.image=monitoring/kube-webhook-certgen \
+            --set admissionWebhooks.patch.image.tag=v1.6.3
 
       - name: Apply ingress resources
         run: |
