@@ -51,12 +51,18 @@ jobs:
 
       - name: Import monitoring images into ACR
         run: |
-          az acr import --name ${{ secrets.ACR_NAME }} \
-            --source quay.io/prometheus-operator/prometheus-operator:v0.75.2 \
-            --image monitoring/prometheus-operator:v0.75.2
-          az acr import --name ${{ secrets.ACR_NAME }} \
-            --source registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.3 \
-            --image monitoring/kube-webhook-certgen:v1.6.3
+          if ! az acr repository show --name ${{ secrets.ACR_NAME }} \
+            --image monitoring/prometheus-operator:v0.75.2 >/dev/null 2>&1; then
+            az acr import --name ${{ secrets.ACR_NAME }} \
+              --source quay.io/prometheus-operator/prometheus-operator:v0.75.2 \
+              --image monitoring/prometheus-operator:v0.75.2
+          fi
+          if ! az acr repository show --name ${{ secrets.ACR_NAME }} \
+            --image monitoring/kube-webhook-certgen:v1.6.3 >/dev/null 2>&1; then
+            az acr import --name ${{ secrets.ACR_NAME }} \
+              --source registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.3 \
+              --image monitoring/kube-webhook-certgen:v1.6.3
+          fi
 
       - name: Set AKS context
         uses: azure/aks-set-context@v4
