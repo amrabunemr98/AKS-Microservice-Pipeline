@@ -33,7 +33,7 @@ resources:
     memory: 128Mi
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetPort: 5000
   annotations:
