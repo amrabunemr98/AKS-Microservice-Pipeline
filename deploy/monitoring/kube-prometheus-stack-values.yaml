@@ -6,6 +6,14 @@ global:
 
 grafana:
   adminPassword: changeme
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   service:
     type: LoadBalancer
     annotations:
@@ -14,31 +22,41 @@ grafana:
     enabled: false
   persistence:
     enabled: false
+  sidecar:
+    dashboards:
+      enabled: false
+    datasources:
+      enabled: false
 
 prometheus:
+  enabled: true
   service:
     type: LoadBalancer
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
   prometheusSpec:
-    retention: 15d
+    retention: 1d
     scrapeInterval: 30s
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 300m
+        memory: 512Mi
     serviceMonitorSelectorNilUsesHelmValues: false
 
+prometheus-node-exporter:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
 prometheusOperator:
-  image:
-    registry: microservicesdevw25mr.azurecr.io
-    repository: monitoring/prometheus-operator
-    tag: v0.75.2
-  tolerations:
-    - key: CriticalAddonsOnly
-      operator: Exists
   admissionWebhooks:
     enabled: false
     patch:
       enabled: false
 
 alertmanager:
-  enabled: true
-  service:
-    type: ClusterIP
+  enabled: false
