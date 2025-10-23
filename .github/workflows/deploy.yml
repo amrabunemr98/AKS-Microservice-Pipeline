@@ -82,6 +82,18 @@ jobs:
               --image monitoring/prometheus-operator:v0.86.1
           fi
 
+      - name: Ensure ingress public IP
+        env:
+          AKS_RG: ${{ secrets.AKS_RESOURCE_GROUP }}
+          AKS_CLUSTER: ${{ secrets.AKS_CLUSTER_NAME }}
+        run: |
+          NODE_RG=$(az aks show -g "$AKS_RG" -n "$AKS_CLUSTER" --query nodeResourceGroup -o tsv)
+          if ! az network public-ip show -g "$NODE_RG" -n ingress-nginx-public-ip >/dev/null 2>&1; then
+            az network public-ip create -g "$NODE_RG" -n ingress-nginx-public-ip --sku Standard --allocation-method Static >/dev/null
+          fi
+          IP_ADDRESS=$(az network public-ip show -g "$NODE_RG" -n ingress-nginx-public-ip --query ipAddress -o tsv)
+          echo "INGRESS_PUBLIC_IP=$IP_ADDRESS" >> $GITHUB_ENV
+
       - name: Set AKS context
         uses: azure/aks-set-context@v4
         with:
@@ -114,6 +126,7 @@ jobs:
             --create-namespace \
             --set controller.service.type=LoadBalancer \
             --set controller.service.externalTrafficPolicy=Local \
+            --set controller.service.loadBalancerIP=${{ env.INGRESS_PUBLIC_IP }} \
             --set controller.imagePullSecrets[0].name=acr-pull-secret \
             --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
             --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \
