@@ -33,6 +33,15 @@ jobs:
           az acr login --name ${{ secrets.ACR_NAME }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
+      - name: Import monitoring images into ACR
+        run: |
+          az acr import --name ${{ secrets.ACR_NAME }} \
+            --source mcr.microsoft.com/oss/prometheus-operator/prometheus-operator:v0.75.2 \
+            --image monitoring/prometheus-operator:v0.75.2
+          az acr import --name ${{ secrets.ACR_NAME }} \
+            --source registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.3 \
+            --image monitoring/kube-webhook-certgen:v1.6.3
+
       - name: Set AKS context
         uses: azure/aks-set-context@v4
         with:
