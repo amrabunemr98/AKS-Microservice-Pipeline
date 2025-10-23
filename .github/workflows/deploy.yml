@@ -33,6 +33,22 @@ jobs:
           az acr login --name ${{ secrets.ACR_NAME }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
+      - name: Ensure ACR admin enabled
+        run: |
+          az acr update --name ${{ secrets.ACR_NAME }} --admin-enabled true
+
+      - name: Create monitoring pull secret
+        run: |
+          ACR_USER=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query username -o tsv)
+          ACR_PASS=$(az acr credential show --name ${{ secrets.ACR_NAME }} --query "passwords[0].value" -o tsv)
+          kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create secret docker-registry acr-pull-secret \
+            --namespace monitoring \
+            --docker-server=${{ secrets.ACR_LOGIN_SERVER }} \
+            --docker-username="$ACR_USER" \
+            --docker-password="$ACR_PASS" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Import monitoring images into ACR
         run: |
           az acr import --name ${{ secrets.ACR_NAME }} \
