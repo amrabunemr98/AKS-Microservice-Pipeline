@@ -118,3 +118,4 @@ az ad sp create-for-rbac \
   --role Contributor \
   --scopes /subscriptions/ea26b3d8-d191-4a12-910c-cac840178587 \
   --sdk-auth
+will add jason in secrets of github actions
