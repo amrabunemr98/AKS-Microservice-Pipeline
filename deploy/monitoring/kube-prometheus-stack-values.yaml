@@ -7,6 +7,10 @@ global:
 grafana:
   adminPassword: changeme
   replicaCount: 1
+  image:
+    registry: microservicesdevw25mr.azurecr.io
+    repository: monitoring/grafana
+    tag: 12.2.0
   resources:
     requests:
       cpu: 50m
@@ -59,6 +63,10 @@ kubeStateMetrics:
   enabled: false
 
 prometheusOperator:
+  image:
+    registry: microservicesdevw25mr.azurecr.io
+    repository: monitoring/prometheus-operator
+    tag: v0.86.1
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
