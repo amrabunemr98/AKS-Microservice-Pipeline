@@ -23,6 +23,16 @@ prometheus:
     scrapeInterval: 30s
     serviceMonitorSelectorNilUsesHelmValues: false
 
+prometheusOperator:
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  admissionWebhooks:
+    patch:
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+
 alertmanager:
   enabled: true
   service:
