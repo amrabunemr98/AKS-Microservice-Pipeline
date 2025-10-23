@@ -54,7 +54,10 @@ readinessProbe:
 
 nodeSelector: {}
 
-tolerations: []
+# Allow scheduling on AKS system node pool which is tainted with CriticalAddonsOnly
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
 
 affinity: {}
 

@@ -58,6 +58,17 @@ module "aks" {
   tags                 = local.tags
 }
 
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  count                = var.user_node_pool_enabled ? 1 : 0
+  name                 = "userpool"
+  kubernetes_cluster_id = module.aks.id
+  vm_size              = var.user_node_pool_vm_size
+  node_count           = var.user_node_pool_node_count
+  mode                 = "User"
+  vnet_subnet_id       = module.network.aks_subnet_id
+  tags                 = local.tags
+}
+
 module "jumpbox" {
   source = "../../modules/jumpbox"
 

@@ -90,7 +90,17 @@ then:
 install kubectl in jumpbox:
 
 # Install kubectl (latest stable)
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+
+
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+
 
 # Move it into PATH and make it executable
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl

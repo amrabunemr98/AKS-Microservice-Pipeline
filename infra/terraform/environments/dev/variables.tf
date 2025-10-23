@@ -58,6 +58,24 @@ variable "node_vm_size" {
   default     = "Standard_DS2_v2"
 }
 
+variable "user_node_pool_enabled" {
+  description = "Whether to create an additional user node pool for workloads."
+  type        = bool
+  default     = true
+}
+
+variable "user_node_pool_vm_size" {
+  description = "VM size for the user node pool."
+  type        = string
+  default     = "Standard_B1ms"
+}
+
+variable "user_node_pool_node_count" {
+  description = "Node count for the user node pool."
+  type        = number
+  default     = 1
+}
+
 variable "acr_sku" {
   description = "SKU for the Azure Container Registry."
   type        = string
