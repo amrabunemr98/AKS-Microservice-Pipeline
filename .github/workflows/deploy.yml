@@ -55,6 +55,3 @@ jobs:
             --namespace monitoring \
             --create-namespace \
             -f deploy/monitoring/kube-prometheus-stack-values.yaml
-
-      - name: Azure Logout
-        uses: azure/logout@v1

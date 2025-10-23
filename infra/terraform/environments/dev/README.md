@@ -75,5 +75,46 @@ curl ifconfig.me  Suppose it returns your ip
 then update your allowed_ssh_cidrs = ["your ip /32"]
 
 
+after apply:
+ssh -i ~/.ssh/id_rsa_azure abunemr@20.7.10.13
+then : Log in to Azure from the jumpbox
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+[to install azure cli ]
+
+then 
+
+az login --use-device-code
+az account set --subscription ea26b3d8-d191-4a12-910c-cac840178587
+
+then:
+install kubectl in jumpbox:
+
+# Install kubectl (latest stable)
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# Move it into PATH and make it executable
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Verify installation
+kubectl version --client
+
+Fetch AKS credentials on the jumpbox
+
+az aks get-credentials \
+  --resource-group microservices-dev-rg \
+  --name microservices-dev-aks
+Verify the cluster
+
+kubectl get nodes
+kubectl get pods -A
 
 
+
+2gj8Q~YJF5a~NyYVkYLYSH7Xm~wWAi6amENFJaP~
+
+Create an Azure service principal for the workflow :
+az ad sp create-for-rbac \
+  --name microservices-actions \
+  --role Contributor \
+  --scopes /subscriptions/ea26b3d8-d191-4a12-910c-cac840178587 \
+  --sdk-auth
