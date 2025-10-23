@@ -84,6 +84,8 @@ kubectl get svc -n monitoring grafana
 
 Grafana and Prometheus services default to internal load balancers. Port-forward from the jumpbox for browser access (`kubectl port-forward svc/grafana 3000:80 -n monitoring`). On private clusters ensure the namespace holds the `acr-pull-secret` and outbound connectivity (NAT gateway or ACR private endpoint) exists so Pods can pull images.
 
+To expose everything through a single public endpoint, install an ingress controller (e.g., NGINX) and apply the manifests under `deploy/ingress/`. With the sample configuration, traffic to `https://aks-lb.eastus2.cloudapp.azure.com/` reaches the microservice, `/grafana` reaches Grafana, and `/prometheus` reaches Prometheus. Point DNS for `aks-lb.eastus2.cloudapp.azure.com` (or your custom hostname) at the ingress controller’s IP and secure it as needed.
+
 ### 8. GitHub Actions CI/CD
 
 Create the following repository secrets (matching `.github/workflows/deploy.yml`):

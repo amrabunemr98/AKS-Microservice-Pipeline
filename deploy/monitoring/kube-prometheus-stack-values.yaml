@@ -22,9 +22,8 @@ grafana:
     - key: CriticalAddonsOnly
       operator: Exists
   service:
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    type: ClusterIP
+    annotations: {}
   ingress:
     enabled: false
   persistence:
@@ -38,9 +37,8 @@ grafana:
 prometheus:
   enabled: true
   service:
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    type: ClusterIP
+    annotations: {}
   prometheusSpec:
     retention: 1d
     scrapeInterval: 30s
