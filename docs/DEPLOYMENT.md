@@ -24,6 +24,7 @@ curl http://localhost:5000/users
    - `location`, `project_name`, and `environment`.
    - CIDR blocks for the virtual network and subnets (ensure non-overlapping ranges).
    - `ssh_public_key` and `allowed_ssh_cidrs`.
+   - `enable_nat_gateway` when you need outbound Internet access for a private AKS subnet. Setting it to `true` provisions a Standard public IP, a NAT gateway, and associates it with the AKS subnet.
 3. Configure the remote state backend in `provider.tf` (Azure Storage account recommended).
 4. Authenticate with Azure: `az login` (or use a service principal).
 5. Run Terraform:
@@ -81,7 +82,7 @@ helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
 kubectl get svc -n monitoring grafana
 ```
 
-Grafana and Prometheus services default to internal load balancers. Port-forward from the jumpbox for browser access (`kubectl port-forward svc/grafana 3000:80 -n monitoring`).
+Grafana and Prometheus services default to internal load balancers. Port-forward from the jumpbox for browser access (`kubectl port-forward svc/grafana 3000:80 -n monitoring`). On private clusters ensure the namespace holds the `acr-pull-secret` and outbound connectivity (NAT gateway or ACR private endpoint) exists so Pods can pull images.
 
 ### 8. GitHub Actions CI/CD
 

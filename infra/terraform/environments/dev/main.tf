@@ -25,6 +25,7 @@ module "network" {
   aks_subnet_prefix     = var.aks_subnet_prefix
   acr_subnet_prefix     = var.acr_subnet_prefix
   jumpbox_subnet_prefix = var.jumpbox_subnet_prefix
+  enable_nat_gateway    = var.enable_nat_gateway
   tags                  = local.tags
 }
 

@@ -40,6 +40,12 @@ variable "jumpbox_subnet_prefix" {
   default     = "10.10.3.0/28"
 }
 
+variable "enable_nat_gateway" {
+  description = "Provision a NAT gateway for outbound Internet access."
+  type        = bool
+  default     = true
+}
+
 variable "kubernetes_version" {
   description = "Optional Kubernetes version override."
   type        = string

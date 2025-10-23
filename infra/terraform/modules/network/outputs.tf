@@ -22,3 +22,13 @@ output "jumpbox_subnet_id" {
   description = "ID of the management subnet used for the jumpbox."
   value       = azurerm_subnet.jumpbox.id
 }
+
+output "nat_gateway_id" {
+  description = "ID of the NAT gateway provisioned for outbound access (null when disabled)."
+  value       = try(azurerm_nat_gateway.this[0].id, null)
+}
+
+output "nat_public_ip_id" {
+  description = "ID of the NAT gateway public IP (null when disabled)."
+  value       = try(azurerm_public_ip.nat[0].id, null)
+}

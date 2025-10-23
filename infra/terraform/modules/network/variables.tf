@@ -33,6 +33,12 @@ variable "jumpbox_subnet_prefix" {
   type        = string
 }
 
+variable "enable_nat_gateway" {
+  description = "Whether to provision a NAT gateway for outbound Internet access."
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Common resource tags."
   type        = map(string)
