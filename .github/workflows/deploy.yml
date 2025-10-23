@@ -82,16 +82,19 @@ jobs:
               --image monitoring/prometheus-operator:v0.86.1
           fi
 
-      - name: Ensure ingress public IP
+      - name: Resolve ingress public IP
         env:
           AKS_RG: ${{ secrets.AKS_RESOURCE_GROUP }}
           AKS_CLUSTER: ${{ secrets.AKS_CLUSTER_NAME }}
+          LB_DOMAIN_LABEL: aks-lb
         run: |
           NODE_RG=$(az aks show -g "$AKS_RG" -n "$AKS_CLUSTER" --query nodeResourceGroup -o tsv)
-          if ! az network public-ip show -g "$NODE_RG" -n ingress-nginx-public-ip >/dev/null 2>&1; then
-            az network public-ip create -g "$NODE_RG" -n ingress-nginx-public-ip --sku Standard --allocation-method Static >/dev/null
+          IP_ADDRESS=$(az network public-ip list -g "$NODE_RG" --query "[?dnsSettings.domainNameLabel=='$LB_DOMAIN_LABEL'].ipAddress | [0]" -o tsv)
+          if [ -z "$IP_ADDRESS" ]; then
+            echo "Failed to locate public IP with domain label '$LB_DOMAIN_LABEL' in resource group '$NODE_RG'" >&2
+            exit 1
           fi
-          IP_ADDRESS=$(az network public-ip show -g "$NODE_RG" -n ingress-nginx-public-ip --query ipAddress -o tsv)
+          echo "Using existing ingress public IP: $IP_ADDRESS"
           echo "INGRESS_PUBLIC_IP=$IP_ADDRESS" >> $GITHUB_ENV
 
       - name: Set AKS context
