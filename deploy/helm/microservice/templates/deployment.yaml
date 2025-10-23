@@ -26,7 +26,7 @@ spec:
       imagePullSecrets:
         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{- if .Values.serviceAccount.create -}}{{ include "microservice.fullname" . }}{{- else -}}{{ default "default" .Values.serviceAccount.name }}{{- end }}
+      serviceAccountName: {{ if .Values.serviceAccount.create }}{{ include "microservice.fullname" . }}{{ else }}{{ default "default" .Values.serviceAccount.name }}{{ end }}
       containers:
         - name: {{ include "microservice.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
