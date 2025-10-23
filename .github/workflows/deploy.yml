@@ -118,7 +118,9 @@ jobs:
             --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
             --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \
             --set admissionWebhooks.patch.image.image=monitoring/kube-webhook-certgen \
-            --set admissionWebhooks.patch.image.tag=v1.6.3
+            --set admissionWebhooks.patch.image.tag=v1.6.3 \
+            --set controller.admissionWebhooks.enabled=false \
+            --set admissionWebhooks.enabled=false
 
       - name: Apply ingress resources
         run: |
