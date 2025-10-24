@@ -137,3 +137,10 @@ selfhosted runner after running command so must Install and start as a service s
 sudo ./svc.sh install
 sudo ./svc.sh start
 sudo ./svc.sh statu
+
+
+we run it:
+Create service principal for GitHub Actions:
+
+az ad sp create-for-rbac --name "github-actions-microservices" --role contributor --scopes /subscriptions/ea26b3d8-d191-4a12-910c-cac840178587/resourceGroups/microservices-dev-rg --sdk-auth
+
