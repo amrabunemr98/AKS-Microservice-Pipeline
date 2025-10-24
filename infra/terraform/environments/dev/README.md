@@ -85,6 +85,7 @@ then
 
 az login --use-device-code
 az account set --subscription ea26b3d8-d191-4a12-910c-cac840178587
+to can add aks cred. in jumpbox
 
 then:
 install kubectl in jumpbox:

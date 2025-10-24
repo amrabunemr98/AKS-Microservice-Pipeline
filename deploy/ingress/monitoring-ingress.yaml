@@ -9,8 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - host: aks-lb.eastus2.cloudapp.azure.com
-    http:
+  - http:
       paths:
       - path: /grafana(/|$)(.*)
         pathType: Prefix

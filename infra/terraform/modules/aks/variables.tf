@@ -55,11 +55,29 @@ variable "authorized_ip_ranges" {
 variable "private_cluster_enabled" {
   description = "Whether the AKS control plane should be private."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "tags" {
   description = "Common tags to apply."
   type        = map(string)
   default     = {}
+}
+
+variable "user_node_pool_enabled" {
+  description = "Whether to create an additional user node pool for workloads."
+  type        = bool
+  default     = false
+}
+
+variable "user_node_pool_vm_size" {
+  description = "VM size for the user node pool."
+  type        = string
+  default     = "Standard_B2s"
+}
+
+variable "user_node_pool_node_count" {
+  description = "Node count for the user node pool."
+  type        = number
+  default     = 1
 }

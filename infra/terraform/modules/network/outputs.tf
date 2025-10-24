@@ -32,3 +32,8 @@ output "nat_public_ip_id" {
   description = "ID of the NAT gateway public IP (null when disabled)."
   value       = try(azurerm_public_ip.nat[0].id, null)
 }
+
+output "aks_network_security_group_id" {
+  description = "ID of the network security group associated with the AKS subnet (null when disabled)."
+  value       = try(azurerm_network_security_group.aks[0].id, null)
+}

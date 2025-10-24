@@ -17,7 +17,6 @@ terraform {
     storage_account_name = "tfstateacct00123"
     container_name       = "tfstate"
     key                  = "microservices-dev.tfstate"
-    use_azuread_auth     = true
   }
 }
 

@@ -39,6 +39,36 @@ variable "enable_nat_gateway" {
   default     = false
 }
 
+variable "create_aks_nsg" {
+  description = "Whether to create and associate an NSG with the AKS subnet."
+  type        = bool
+  default     = true
+}
+
+variable "grafana_port" {
+  description = "Port exposed by Grafana."
+  type        = number
+  default     = 3000
+}
+
+variable "prometheus_port" {
+  description = "Port exposed by Prometheus."
+  type        = number
+  default     = 9090
+}
+
+variable "grafana_source_address_prefix" {
+  description = "CIDR block allowed to reach Grafana."
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
+variable "prometheus_source_address_prefix" {
+  description = "CIDR block allowed to reach Prometheus."
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
 variable "tags" {
   description = "Common resource tags."
   type        = map(string)

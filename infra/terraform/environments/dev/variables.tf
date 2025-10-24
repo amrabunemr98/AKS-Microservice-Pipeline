@@ -46,6 +46,18 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
+variable "create_aks_nsg" {
+  description = "Create and associate an NSG with the AKS subnet."
+  type        = bool
+  default     = true
+}
+
+variable "private_cluster_enabled" {
+  description = "Whether the AKS API server should be private."
+  type        = bool
+  default     = false
+}
+
 variable "kubernetes_version" {
   description = "Optional Kubernetes version override."
   type        = string
@@ -67,19 +79,31 @@ variable "node_vm_size" {
 variable "user_node_pool_enabled" {
   description = "Whether to create an additional user node pool for workloads."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "user_node_pool_vm_size" {
   description = "VM size for the user node pool."
   type        = string
-  default     = "Standard_B1ms"
+  default     = "Standard_B2s"
 }
 
 variable "user_node_pool_node_count" {
   description = "Node count for the user node pool."
   type        = number
   default     = 1
+}
+
+variable "grafana_allowed_cidr" {
+  description = "CIDR block allowed to access Grafana."
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
+variable "prometheus_allowed_cidr" {
+  description = "CIDR block allowed to access Prometheus."
+  type        = string
+  default     = "0.0.0.0/0"
 }
 
 variable "acr_sku" {

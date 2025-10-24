@@ -82,21 +82,6 @@ jobs:
               --image monitoring/prometheus-operator:v0.86.1
           fi
 
-      - name: Resolve ingress public IP
-        env:
-          AKS_RG: ${{ secrets.AKS_RESOURCE_GROUP }}
-          AKS_CLUSTER: ${{ secrets.AKS_CLUSTER_NAME }}
-          LB_DOMAIN_LABEL: aks-lb
-        run: |
-          NODE_RG=$(az aks show -g "$AKS_RG" -n "$AKS_CLUSTER" --query nodeResourceGroup -o tsv)
-          IP_ADDRESS=$(az network public-ip list -g "$NODE_RG" --query "[?dnsSettings.domainNameLabel=='$LB_DOMAIN_LABEL'].ipAddress | [0]" -o tsv)
-          if [ -z "$IP_ADDRESS" ]; then
-            echo "Failed to locate public IP with domain label '$LB_DOMAIN_LABEL' in resource group '$NODE_RG'" >&2
-            exit 1
-          fi
-          echo "Using existing ingress public IP: $IP_ADDRESS"
-          echo "INGRESS_PUBLIC_IP=$IP_ADDRESS" >> $GITHUB_ENV
-
       - name: Set AKS context
         uses: azure/aks-set-context@v4
         with:
@@ -129,7 +114,6 @@ jobs:
             --create-namespace \
             --set controller.service.type=LoadBalancer \
             --set controller.service.externalTrafficPolicy=Local \
-            --set controller.service.loadBalancerIP=${{ env.INGRESS_PUBLIC_IP }} \
             --set controller.imagePullSecrets[0].name=acr-pull-secret \
             --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
             --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \

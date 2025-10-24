@@ -11,8 +11,7 @@ metadata:
       }
 spec:
   rules:
-  - host: aks-lb.eastus2.cloudapp.azure.com
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
