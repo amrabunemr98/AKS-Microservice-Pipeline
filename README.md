@@ -1,6 +1,8 @@
-# Microservices Deployment on Azure Kubernetes Service (AKS)
+<div align="center">
+  <h1 style="color: red;"> Microservices Deployment on Azure Kubernetes Service (AKS)</h1>
+</div>
 
-A complete production-ready microservices deployment on Azure Kubernetes Service with automated CI/CD, monitoring, and alerting capabilities.
+A fully automated, production-grade microservices deployment architecture for Azure Kubernetes Service (AKS), built with Terraform, Helm, and GitHub Actions, providing scalable infrastructure, continuous delivery, and complete observability through Prometheus and Grafana.
 
 ## Table of Contents
 - [Project Overview](#project-overview)
