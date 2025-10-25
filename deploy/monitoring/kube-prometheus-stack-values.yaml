@@ -45,6 +45,7 @@ prometheus:
     annotations: {}
   prometheusSpec:
     externalUrl: http://20.1.152.210/prometheus/
+    routePrefix: /
     retention: 1d
     scrapeInterval: 30s
     resources:
