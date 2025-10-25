@@ -38,6 +38,7 @@ service:
   targetPort: 5000
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-resource-group: "MC_microservices-dev-rg_microservices-dev-aks_eastus2"
+    service.beta.kubernetes.io/azure-disable-load-balancer-floating-ip: "true"
   loadBalancerIP: "132.196.184.141"
 
 livenessProbe:
