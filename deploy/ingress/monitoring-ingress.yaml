@@ -6,13 +6,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: "true"
-    # Only rewrite Prometheus, keep Grafana sub-path intact
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - http:
       paths:
-      # Grafana — served from /grafana; $2 will preserve its suffix
+      # Grafana under /grafana
       - path: /grafana(/|$)(.*)
         pathType: Prefix
         backend:
@@ -20,7 +19,8 @@ spec:
             name: monitoring-grafana
             port:
               number: 80
-      # Prometheus — served from /prometheus
+
+      # Prometheus under /prometheus
       - path: /prometheus(/|$)(.*)
         pathType: Prefix
         backend:
