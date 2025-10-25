@@ -361,6 +361,15 @@ kubectl get svc -n microservice
 
 <img width="1112" height="47" alt="svc-microservice" src="https://github.com/user-attachments/assets/1ee8b229-2b98-43df-a029-ce2a4226e8e3" />
 
+#### Access Microservice App UI:
+
+- URL: `http://132.196.184.141/users/1` or `http://132.196.184.141/products/1` 
+- Access via browser
+
+  <img width="1172" height="215" alt="app-ui" src="https://github.com/user-attachments/assets/f1a35ff5-d7f6-42c8-9de8-89ebf6ac4f23" />
+
+  <img width="752" height="204" alt="app-ui2" src="https://github.com/user-attachments/assets/f450ddd0-5574-44d1-acd2-bf82c7d106ef" />
+
 ---
 
 ## Monitoring Setup
@@ -592,11 +601,6 @@ During the GitHub Actions deployment pipeline, the Jumpbox public IP is automati
 | Microservice API | http://132.196.184.141/users/1 | Sample API endpoint |
 | Prometheus | http://20.1.152.210/prometheus | Metrics collection UI |
 | Grafana | http://20.1.152.210/grafana | Monitoring dashboards |
-
-<img width="1172" height="215" alt="app-ui" src="https://github.com/user-attachments/assets/4b583ea3-9a31-415f-9214-ce25aacdfc79" />
-
-<img width="752" height="204" alt="app-ui2" src="https://github.com/user-attachments/assets/51e228c7-313a-46ba-871b-29d74ae14bf1" />
-
 
 ### Grafana Credentials
 
