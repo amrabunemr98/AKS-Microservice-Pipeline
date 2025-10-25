@@ -116,7 +116,7 @@ The bootstrap phase creates the foundational resources for storing Terraform sta
    terraform apply
    ```
 
-<img width="886" height="229" alt="tfstate" src="https://github.com/user-attachments/assets/650062d3-d3e3-4afb-9ff3-b6ad00aba9f2" />
+   <img width="886" height="229" alt="tfstate" src="https://github.com/user-attachments/assets/650062d3-d3e3-4afb-9ff3-b6ad00aba9f2" />
 
 #### Bootstrap Resources Created:
 - Azure Storage Account for Terraform state
@@ -146,7 +146,8 @@ The main infrastructure provisions all Azure resources required for the AKS clus
    terraform apply
    ```
 
-   **[SCREENSHOT PLACEHOLDER: Terraform apply output showing all resources being created]**
+   <img width="1321" height="278" alt="terraform apply" src="https://github.com/user-attachments/assets/f9a4e4be-dc44-4464-a20c-dad228b94467" />
+
 
 
 #### Infrastructure Resources Created:
@@ -205,26 +206,28 @@ After infrastructure deployment, configure the Jumpbox to access the AKS cluster
      --name microservices-dev-aks
    ```
 
-   **[SCREENSHOT PLACEHOLDER: AKS credentials configuration output]**
+   <img width="1395" height="533" alt="az-login" src="https://github.com/user-attachments/assets/1dda80ef-257c-413e-bba9-046368b4fece" />
 
-4. **Verify cluster access**
+5. **Verify cluster access**
    ```bash
    kubectl get nodes
    ```
 
-5. **Check pods across all namespaces**
+6. **Check pods across all namespaces**
    ```bash
    kubectl get pods -A
    ```
 
-   **[SCREENSHOT PLACEHOLDER: kubectl get pods output showing system pods]**
+   <img width="866" height="347" alt="K8s-jumpbox2" src="https://github.com/user-attachments/assets/71384943-7d97-4653-ab55-0a02db502e3b" />
 
-6. **Verify services**
+
+7. **Verify services**
    ```bash
    kubectl get svc --all-namespaces
    ```
 
-   **[SCREENSHOT PLACEHOLDER: kubectl get services output]**
+   <img width="1579" height="365" alt="svc-output" src="https://github.com/user-attachments/assets/89b99990-e159-4e69-9b0a-b309f02fbd15" />
+
 
 ---
 
@@ -246,7 +249,7 @@ To enable GitHub Actions to deploy to the AKS cluster, self-hosted runners are c
    ./config.sh --url https://github.com/<YOUR_USERNAME>/<YOUR_REPO> --token <GITHUB_TOKEN>
    ```
 
-   **[SCREENSHOT PLACEHOLDER: GitHub runner configuration output]**
+   <img width="1689" height="862" alt="self-hosted" src="https://github.com/user-attachments/assets/37f7e1f7-e308-4694-9313-ceab55f22917" />
 
 3. **Install and start runner as a service**
 
@@ -264,7 +267,7 @@ To enable GitHub Actions to deploy to the AKS cluster, self-hosted runners are c
 4. **Verify runner is online**
    - Navigate to GitHub repository → Settings → Actions → Runners
 
-   **[SCREENSHOT PLACEHOLDER: GitHub UI showing self-hosted runner online]**
+   <img width="1500" height="461" alt="runners" src="https://github.com/user-attachments/assets/595dce92-f5e3-462a-8204-4e900228e247" />
 
 ---
 
@@ -308,7 +311,7 @@ Create an Azure service principal to allow GitHub Actions workflow to authentica
    - `AZURE_TENANT_ID`: Your Azure tenant ID
    - Any other sensitive values used in the workflow
 
-     **[SCREENSHOT PLACEHOLDER: GitHub secrets configuration]**
+     <img width="1414" height="525" alt="secrets" src="https://github.com/user-attachments/assets/a7511649-7613-4270-becc-e3709a79775a" />
 
 ---
 
@@ -340,7 +343,7 @@ The microservices application is automatically deployed via GitHub Actions CI/CD
 2. **Monitor pipeline execution**
    - Navigate to GitHub repository → Actions
 
-   **[SCREENSHOT PLACEHOLDER: GitHub Actions workflow completed successfully]**
+   <img width="1895" height="577" alt="pipeline" src="https://github.com/user-attachments/assets/bd7d6f28-c0cc-4dca-968e-56e531490be7" />
 
 ### Verify Deployment
 
@@ -349,14 +352,14 @@ The microservices application is automatically deployed via GitHub Actions CI/CD
 kubectl get pods -n microservice
 ```
 
-**[SCREENSHOT PLACEHOLDER: kubectl get pods -n microservice showing running pods]**
+<img width="881" height="71" alt="pod-microservice" src="https://github.com/user-attachments/assets/0788cfad-7858-4ae4-8307-d3e416e87f30" />
 
 **Check services:**
 ```bash
 kubectl get svc -n microservice
 ```
 
-**[SCREENSHOT PLACEHOLDER: kubectl get svc showing LoadBalancer service with external IP]**
+<img width="1112" height="47" alt="svc-microservice" src="https://github.com/user-attachments/assets/1ee8b229-2b98-43df-a029-ce2a4226e8e3" />
 
 ---
 
@@ -373,16 +376,17 @@ kubectl get pods -n monitoring | grep prometheus
 kubectl get svc -n monitoring | grep prometheus
 ```
 
-**[SCREENSHOT PLACEHOLDER: Prometheus pods and services running]**
+<img width="1112" height="145" alt="prometheus-svc-pod" src="https://github.com/user-attachments/assets/5c92054a-a248-47f6-bb88-8dafacec5368" />
+
 
 #### Access Prometheus UI:
 
 - URL: `http://20.1.152.210/prometheus`
 - Access via browser
 
-**[SCREENSHOT PLACEHOLDER: Prometheus UI showing targets and service discovery]**
+<img width="1904" height="943" alt="prometheus-UI" src="https://github.com/user-attachments/assets/22fae2c0-4e91-42ea-94ad-99e608522f1a" />
 
-**[SCREENSHOT PLACEHOLDER: Prometheus UI showing metrics query with microservice data]**
+<img width="1899" height="962" alt="prometheus-UI-2" src="https://github.com/user-attachments/assets/7d2867ab-04fc-4b2b-9c84-77dacc882c3b" />
 
 #### Key Prometheus Metrics Collected:
 - Kubernetes cluster metrics (nodes, pods, containers)
@@ -403,7 +407,7 @@ kubectl get pods -n monitoring | grep grafana
 kubectl get svc -n monitoring | grep grafana
 ```
 
-**[SCREENSHOT PLACEHOLDER: Grafana pod and service running]**
+<img width="1095" height="48" alt="grafana-svc-pod" src="https://github.com/user-attachments/assets/29fb473f-55c4-4eee-83a8-1efa258a7b97" />
 
 #### Access Grafana UI:
 
@@ -425,9 +429,11 @@ kubectl get svc -n monitoring | grep grafana
 - **15661** - Kubernetes Cluster Monitoring
 - **6417** - Kubernetes Cluster Overview
 
-**[SCREENSHOT PLACEHOLDER: Grafana dashboard showing Kubernetes cluster metrics]**
+<img width="1913" height="883" alt="Grafana-UI" src="https://github.com/user-attachments/assets/6fcd1353-bc0e-4a8d-8511-81398dccf115" />
 
-**[SCREENSHOT PLACEHOLDER: Grafana dashboard showing pod CPU and memory usage]**
+<img width="1919" height="826" alt="grafana-UI-2" src="https://github.com/user-attachments/assets/da149029-64f2-4be8-935d-becd60e01160" />
+
+<img width="1912" height="866" alt="grafana-ui-3" src="https://github.com/user-attachments/assets/37dca043-a271-4423-8583-3c9b869c3a24" />
 
 ---
 
@@ -587,7 +593,10 @@ During the GitHub Actions deployment pipeline, the Jumpbox public IP is automati
 | Prometheus | http://20.1.152.210/prometheus | Metrics collection UI |
 | Grafana | http://20.1.152.210/grafana | Monitoring dashboards |
 
-**[SCREENSHOT PLACEHOLDER: Browser showing microservice API response at http://132.196.184.141/users/1]**
+<img width="1172" height="215" alt="app-ui" src="https://github.com/user-attachments/assets/4b583ea3-9a31-415f-9214-ce25aacdfc79" />
+
+<img width="752" height="204" alt="app-ui2" src="https://github.com/user-attachments/assets/51e228c7-313a-46ba-871b-29d74ae14bf1" />
+
 
 ### Grafana Credentials
 
@@ -597,15 +606,13 @@ During the GitHub Actions deployment pipeline, the Jumpbox public IP is automati
 
 ### Azure Resources
 
-**[SCREENSHOT PLACEHOLDER: Azure Portal showing resource group with all deployed resources]**
+<img width="1899" height="590" alt="RG-UI" src="https://github.com/user-attachments/assets/43903516-2828-4eb9-bcd5-427f9a7305b1" />
 
-**[SCREENSHOT PLACEHOLDER: Azure Portal showing AKS cluster overview]**
+<img width="1881" height="790" alt="aks-ui" src="https://github.com/user-attachments/assets/f42bcb4d-dc81-428f-90a4-e750d7ce483c" />
 
-**[SCREENSHOT PLACEHOLDER: Azure Portal showing running pods in AKS cluster]**
+<img width="1866" height="732" alt="pods-ui" src="https://github.com/user-attachments/assets/6b7dda27-da25-46c3-bab2-05543ac05e84" />
 
-**[SCREENSHOT PLACEHOLDER: Azure Portal showing services in AKS cluster]**
-
-
+<img width="1845" height="765" alt="svc-ui" src="https://github.com/user-attachments/assets/0d5b3028-573c-48b8-ac31-9e38a39b82dd" />
 
 ---
 
