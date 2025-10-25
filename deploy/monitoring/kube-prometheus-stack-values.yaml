@@ -9,7 +9,7 @@ grafana:
   replicaCount: 1
   grafana.ini:
     server:
-      root_url: "%(protocol)s://20.1.152.210/grafana"
+      root_url: "%(protocol)s://20.1.152.210/grafana/"
       serve_from_sub_path: true
   image:
     registry: microservicesdev5912t.azurecr.io
@@ -44,7 +44,7 @@ prometheus:
     type: ClusterIP
     annotations: {}
   prometheusSpec:
-    externalUrl: http://20.1.152.210/prometheus
+    externalUrl: http://20.1.152.210/prometheus/
     retention: 1d
     scrapeInterval: 30s
     resources:
