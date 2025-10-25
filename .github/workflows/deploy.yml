@@ -136,6 +136,7 @@ jobs:
             --set controller.service.externalTrafficPolicy=Local \
             --set controller.service.loadBalancerIP=${{ env.INGRESS_PUBLIC_IP }} \
             --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=microservices-dev-rg \
+            --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-disable-load-balancer-floating-ip"="true" \
             --set controller.imagePullSecrets[0].name=acr-pull-secret \
             --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
             --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \
