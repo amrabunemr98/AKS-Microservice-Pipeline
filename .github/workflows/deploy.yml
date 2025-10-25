@@ -88,33 +88,15 @@ jobs:
           resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
 
-      - name: Get public IPs for services
+      - name: Get Kubernetes LB IP for ingress
         env:
           AKS_RG: ${{ secrets.AKS_RESOURCE_GROUP }}
           AKS_CLUSTER: ${{ secrets.AKS_CLUSTER_NAME }}
         run: |
           NODE_RG=$(az aks show -g "$AKS_RG" -n "$AKS_CLUSTER" --query nodeResourceGroup -o tsv)
           KUBE_LB_IP=$(az network public-ip list -g "$NODE_RG" --query "[0].ipAddress" -o tsv)
-          echo "Using Kubernetes LB public IP for microservice: $KUBE_LB_IP"
-          echo "MICROSERVICE_LB_IP=$KUBE_LB_IP" >> $GITHUB_ENV
-
-          JUMPBOX_IP=$(az network public-ip show -g microservices-dev-rg -n microservices-dev-jumpbox-pip --query ipAddress -o tsv)
-          echo "Using Jumpbox public IP for monitoring ingress: $JUMPBOX_IP"
-          echo "INGRESS_PUBLIC_IP=$JUMPBOX_IP" >> $GITHUB_ENV
-
-      - name: Detach Jumpbox public IP
-        run: |
-          echo "Detaching public IP from Jumpbox NIC to reassign to monitoring ingress..."
-          JUMPBOX_NIC_ID=$(az vm show -g microservices-dev-rg -n microservices-dev-jumpbox --query networkProfile.networkInterfaces[0].id -o tsv)
-          JUMPBOX_NIC_NAME=$(basename "$JUMPBOX_NIC_ID")
-
-          az network nic ip-config update \
-            --resource-group microservices-dev-rg \
-            --nic-name "$JUMPBOX_NIC_NAME" \
-            --name ipconfig1 \
-            --remove publicIpAddress || true
-
-          echo "Public IP detached from Jumpbox"
+          echo "Using Kubernetes LB public IP: $KUBE_LB_IP"
+          echo "INGRESS_PUBLIC_IP=$KUBE_LB_IP" >> $GITHUB_ENV
 
       - name: Helm upgrade
         run: |
@@ -143,7 +125,6 @@ jobs:
             --set controller.service.type=LoadBalancer \
             --set controller.service.externalTrafficPolicy=Local \
             --set controller.service.loadBalancerIP=${{ env.INGRESS_PUBLIC_IP }} \
-            --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=microservices-dev-rg \
             --set controller.imagePullSecrets[0].name=acr-pull-secret \
             --set defaultBackend.imagePullSecrets[0].name=acr-pull-secret \
             --set admissionWebhooks.patch.image.registry=${{ secrets.ACR_LOGIN_SERVER }} \
@@ -152,6 +133,7 @@ jobs:
             --set controller.admissionWebhooks.enabled=false \
             --set admissionWebhooks.enabled=false
 
-      - name: Apply monitoring ingress
+      - name: Apply ingress resources
         run: |
+          kubectl apply -f deploy/ingress/microservice-ingress.yaml
           kubectl apply -f deploy/ingress/monitoring-ingress.yaml
