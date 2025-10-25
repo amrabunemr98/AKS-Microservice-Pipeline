@@ -116,10 +116,6 @@ jobs:
             --set image.repository=${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }} \
             --set image.tag=${{ github.sha }}
 
-      - name: Apply microservice ServiceMonitor
-        run: |
-          kubectl apply -f deploy/monitoring/microservice-servicemonitor.yaml
-
       - name: Ensure monitoring stack
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

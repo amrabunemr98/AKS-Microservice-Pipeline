@@ -15,7 +15,6 @@ A complete production-ready microservices deployment on Azure Kubernetes Service
 - [Monitoring Setup](#monitoring-setup)
   - [Prometheus](#prometheus)
   - [Grafana](#grafana)
-  - [Alerting Rules](#alerting-rules)
 - [Troubleshooting](#troubleshooting)
 - [Azure Subscription Limitations](#azure-subscription-limitations)
 - [Access Information](#access-information)
@@ -30,7 +29,6 @@ This project demonstrates a complete DevOps implementation featuring:
 - **Microservices application** deployed via Helm charts
 - **CI/CD pipeline** using GitHub Actions with self-hosted runners
 - **Monitoring and observability** with Prometheus and Grafana
-- **Alerting** for HTTP 404/500 errors
 
 ### Key Features
 - Automated infrastructure provisioning
@@ -462,36 +460,6 @@ kubectl get svc -n monitoring | grep grafana
 
 ---
 
-### Alerting Rules
-
-Custom Prometheus alerting rules for monitoring HTTP errors from microservice pods.
-
-#### Alert Rules Created:
-
-**File:** `deploy/monitoring/microservice-alerts.yaml`
-
-| Alert Name | Condition | Severity | Description |
-|------------|-----------|----------|-------------|
-| `MicroserviceHigh404Rate` | 404 errors > 0.1/sec for 2min | warning | High rate of 404 errors |
-| `MicroserviceHigh500Rate` | 500 errors > 0.05/sec for 2min | critical | High rate of 500 errors |
-| `MicroserviceAny404Error` | Any 404 error in 5min | info | 404 errors detected |
-| `MicroserviceAny500Error` | Any 500 error in 5min | warning | 500 errors detected |
-| `MicroserviceHighErrorRate` | Error rate > 5% for 5min | warning | High overall error rate |
-
-#### Apply Alerting Rules:
-
-```bash
-kubectl apply -f deploy/monitoring/microservice-alerts.yaml
-```
-
-#### Verify Alerts in Prometheus:
-
-Navigate to Prometheus UI → Alerts
-
-**[SCREENSHOT PLACEHOLDER: Prometheus alerts page showing configured rules]**
-
----
-
 ## Troubleshooting
 
 ### Common Issues and Solutions
@@ -742,8 +710,7 @@ Microservices/
 │   ├── ingress/
 │   │   └── monitoring-ingress.yaml  # Ingress for Grafana/Prometheus
 │   └── monitoring/
-│       ├── kube-prometheus-stack-values.yaml  # Prometheus Helm values
-│       └── microservice-alerts.yaml           # Custom alert rules
+│       └── kube-prometheus-stack-values.yaml  # Prometheus Helm values
 ├── infra/
 │   └── terraform/
 │       ├── bootstrap/           # Bootstrap infrastructure
@@ -782,8 +749,8 @@ Microservices/
 
 ## Future Enhancements
 
-- [ ] Configure Alertmanager for email/Slack notifications
 - [ ] Implement log aggregation with Loki
+- [ ] Configure alerting with Alertmanager for email/Slack notifications
 - [ ] Add horizontal pod autoscaling (HPA)
 - [ ] Implement cert-manager for automatic TLS certificates
 - [ ] Add Azure Key Vault integration for secrets management
