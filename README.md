@@ -116,7 +116,7 @@ The bootstrap phase creates the foundational resources for storing Terraform sta
    terraform apply
    ```
 
-   **[SCREENSHOT PLACEHOLDER: Bootstrap terraform apply output showing storage account and container creation]**
+<img width="886" height="229" alt="tfstate" src="https://github.com/user-attachments/assets/650062d3-d3e3-4afb-9ff3-b6ad00aba9f2" />
 
 #### Bootstrap Resources Created:
 - Azure Storage Account for Terraform state
