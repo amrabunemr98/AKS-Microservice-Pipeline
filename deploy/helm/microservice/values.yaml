@@ -33,11 +33,12 @@ resources:
     memory: 128Mi
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
   targetPort: 5000
   annotations:
-  loadBalancerIP: ""
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: "MC_microservices-dev-rg_microservices-dev-aks_eastus2"
+  loadBalancerIP: "132.196.184.141"
 
 livenessProbe:
   path: /users
