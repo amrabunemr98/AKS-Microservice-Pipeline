@@ -12,10 +12,7 @@ serviceAccount:
   annotations: {}
   name: ""
 
-podAnnotations:
-  prometheus.io/scrape: "true"
-  prometheus.io/port: "5000"
-  prometheus.io/path: "/metrics"
+podAnnotations: {}
 
 podLabels: {}
 
