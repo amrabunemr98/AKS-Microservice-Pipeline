@@ -8,10 +8,10 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
-      # Grafana under /grafana
       - path: /grafana(/|$)(.*)
         pathType: Prefix
         backend:
@@ -19,8 +19,6 @@ spec:
             name: monitoring-grafana
             port:
               number: 80
-
-      # Prometheus under /prometheus
       - path: /prometheus(/|$)(.*)
         pathType: Prefix
         backend:
