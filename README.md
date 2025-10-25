@@ -111,8 +111,6 @@ The bootstrap phase creates the foundational resources for storing Terraform sta
    terraform init
    ```
 
-   **[SCREENSHOT PLACEHOLDER: Bootstrap terraform init output]**
-
 3. **Apply bootstrap configuration**
    ```bash
    terraform apply
@@ -143,8 +141,6 @@ The main infrastructure provisions all Azure resources required for the AKS clus
    terraform init
    ```
 
-   **[SCREENSHOT PLACEHOLDER: Main terraform init output with backend configuration]**
-
 3. **Apply infrastructure configuration**
    ```bash
    terraform apply
@@ -152,12 +148,6 @@ The main infrastructure provisions all Azure resources required for the AKS clus
 
    **[SCREENSHOT PLACEHOLDER: Terraform apply output showing all resources being created]**
 
-4. **Review outputs**
-   ```bash
-   terraform output
-   ```
-
-   **[SCREENSHOT PLACEHOLDER: Terraform outputs showing AKS cluster name, resource group, jumpbox IP, etc.]**
 
 #### Infrastructure Resources Created:
 - **Virtual Network** with subnets for AKS and Jumpbox
@@ -166,8 +156,7 @@ The main infrastructure provisions all Azure resources required for the AKS clus
 - **Jumpbox VM** for cluster access (public IP will be detached later)
 - **Network Security Groups** with appropriate rules
 - **3 Public IP addresses** (NAT Gateway, Microservice LoadBalancer, Monitoring Ingress)
-- **Azure Container Registry** (if configured)
-
+- **Azure Container Registry** 
 ---
 
 ## Jumpbox Configuration
@@ -180,8 +169,6 @@ After infrastructure deployment, configure the Jumpbox to access the AKS cluster
    ```bash
    ssh azureuser@<JUMPBOX_PUBLIC_IP>
    ```
-
-   **[SCREENSHOT PLACEHOLDER: SSH connection to Jumpbox]**
 
 2. **Install required tools on Jumpbox**
 
@@ -204,14 +191,10 @@ After infrastructure deployment, configure the Jumpbox to access the AKS cluster
    kubectl version --client
    ```
 
-   **[SCREENSHOT PLACEHOLDER: kubectl version output]**
-
    Install Helm 3:
    ```bash
    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
    ```
-
-   **[SCREENSHOT PLACEHOLDER: Helm installation output]**
 
 3. **Authenticate with Azure and get AKS credentials**
    ```bash
@@ -228,8 +211,6 @@ After infrastructure deployment, configure the Jumpbox to access the AKS cluster
    ```bash
    kubectl get nodes
    ```
-
-   **[SCREENSHOT PLACEHOLDER: kubectl get nodes showing AKS cluster nodes]**
 
 5. **Check pods across all namespaces**
    ```bash
@@ -280,8 +261,6 @@ To enable GitHub Actions to deploy to the AKS cluster, self-hosted runners are c
    sudo ./svc.sh status
    ```
 
-   **[SCREENSHOT PLACEHOLDER: GitHub runner service status output]**
-
 4. **Verify runner is online**
    - Navigate to GitHub repository → Settings → Actions → Runners
 
@@ -306,8 +285,6 @@ Create an Azure service principal to allow GitHub Actions workflow to authentica
 
    Replace `YOUR_SUBSCRIPTION_ID` with your actual Azure subscription ID.
 
-   **[SCREENSHOT PLACEHOLDER: Service principal creation output]**
-
 2. **Copy the JSON output**
 
    The output will look like this:
@@ -326,12 +303,12 @@ Create an Azure service principal to allow GitHub Actions workflow to authentica
    - Create a new repository secret named `AZURE_CREDENTIALS`
    - Paste the entire JSON output as the value
 
-   **[SCREENSHOT PLACEHOLDER: GitHub secrets configuration]**
-
 4. **Add additional secrets** (if needed)
    - `AZURE_SUBSCRIPTION_ID`: Your Azure subscription ID
    - `AZURE_TENANT_ID`: Your Azure tenant ID
    - Any other sensitive values used in the workflow
+
+     **[SCREENSHOT PLACEHOLDER: GitHub secrets configuration]**
 
 ---
 
@@ -362,8 +339,6 @@ The microservices application is automatically deployed via GitHub Actions CI/CD
 
 2. **Monitor pipeline execution**
    - Navigate to GitHub repository → Actions
-
-   **[SCREENSHOT PLACEHOLDER: GitHub Actions workflow running]**
 
    **[SCREENSHOT PLACEHOLDER: GitHub Actions workflow completed successfully]**
 
@@ -435,9 +410,6 @@ kubectl get svc -n monitoring | grep grafana
 - URL: `http://20.1.152.210/grafana`
 - Default credentials: `admin` / `changeme`
 
-**[SCREENSHOT PLACEHOLDER: Grafana login page]**
-
-**[SCREENSHOT PLACEHOLDER: Grafana home dashboard]**
 
 #### Configure Prometheus Datasource:
 
@@ -446,7 +418,6 @@ kubectl get svc -n monitoring | grep grafana
 3. URL: `http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090/prometheus`
 4. Click "Save & Test"
 
-**[SCREENSHOT PLACEHOLDER: Grafana datasource configuration]**
 
 #### Import Kubernetes Dashboards:
 
@@ -634,7 +605,7 @@ During the GitHub Actions deployment pipeline, the Jumpbox public IP is automati
 
 **[SCREENSHOT PLACEHOLDER: Azure Portal showing services in AKS cluster]**
 
-**[SCREENSHOT PLACEHOLDER: Azure Portal showing public IP addresses]**
+
 
 ---
 
@@ -745,35 +716,6 @@ Microservices/
 - **Ingress Controller:** ingress-nginx
 - **Metrics Instrumentation:** prometheus-flask-exporter
 
----
 
-## Future Enhancements
 
-- [ ] Implement log aggregation with Loki
-- [ ] Configure alerting with Alertmanager for email/Slack notifications
-- [ ] Add horizontal pod autoscaling (HPA)
-- [ ] Implement cert-manager for automatic TLS certificates
-- [ ] Add Azure Key Vault integration for secrets management
-- [ ] Implement network policies for enhanced security
-- [ ] Configure Azure Backup for AKS
-- [ ] Add cost monitoring and optimization
-- [ ] Implement multi-environment deployments (dev/staging/prod)
-- [ ] Add distributed tracing with Jaeger or Tempo
 
----
-
-## License
-
-[Specify your license here]
-
----
-
-## Contributors
-
-[Add contributor information]
-
----
-
-## Contact
-
-[Add contact information]
