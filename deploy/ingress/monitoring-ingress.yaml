@@ -5,14 +5,17 @@ metadata:
   namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Force the rewrite inside the location block (more reliable than global rewrite-target on some builds)
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/prometheus$ / break;
+      rewrite ^/prometheus/(.*)$ /$1 break;
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
       - path: /prometheus(/|$)(.*)
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: prometheus-operated
