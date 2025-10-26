@@ -36,7 +36,6 @@ variable "jumpbox_subnet_prefix" {
 variable "enable_nat_gateway" {
   description = "Whether to provision a NAT gateway for outbound Internet access."
   type        = bool
-  default     = false
 }
 
 variable "create_aks_nsg" {
