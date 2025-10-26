@@ -34,7 +34,7 @@ This project demonstrates a complete DevOps implementation featuring:
 
 ### Key Features
 - Automated infrastructure provisioning
-- GitOps deployment workflow
+- Github Actions deployment workflow
 - Production-grade monitoring stack
 - Cost-optimized architecture with public IP limitations
 - External access to services without ingress conflicts
